@@ -480,8 +480,8 @@
             const addressInstr = currentSettings.gender === 'male' ? 'Panem' : 'Paní';
             
             const ageStory = currentSettings.age === 'younger' ? 
-                'Nedávno se mladému muži stalo, že mu přišla SMS, že má zablokovanou kartu. Klikl na odkaz a zadal své údaje. Během hodiny mu z účtu zmizelo 50 000 Kč.' : 
-                'Paní důchodkyně dostala telefonát od "banky", že jí někdo chce vybrat peníze. Aby to zabránila, měla zadat kódy z SMS. Přišla tak o své úspory - 80 000 Kč.';
+                '<p><Strong>Pane/paní [jméno], setkal/a jste se někdy s pojmem phishing?"</strong></p>  (Reakce na odpověď) <p> Představte si, že vám přijde e-mail, který vypadá, jako by byl od banky. Píše se v něm, že byl váš účet zablokován a musíte kliknout na odkaz.</p> <p>Ten odkaz vás ale zavede na falešnou stránku, která vypadá jako naše, ale ve skutečnosti je to past. </p><p>Jakmile tam zadáte své údaje, útočníci je zneužijí a vykradou vám účet. Útoky phishingu se mimochodem za poslední rok ztrojnásobily. </p><p><strong>S naší ochranou účtu ale máte jistotu, že i kdyby se vám to stalo a o peníze přišel/a, dostanete je zpět."</strong></p>' : 
+                'Představte si, že vám přijde SMS zpráva, která vypadá jako od České pošty, že máte nedoplatek za doručení balíčku, který jste si objednal/a. Odkaz vás navede na stránku, kde máte zadat údaje od karty, aby se balíček mohl doručit. V ten moment ale neposíláte peníze poště, ale přímo podvodníkům. A přesně proti takové situaci, kdy přijdete o peníze, vás naše zabezpečení chrání. Co si o tom myslíte? Řešil/a byste takovou situaci raději s klidem, že se vám peníze vrátí?';
             
             const ageSpecific = currentSettings.age === 'younger' ? 
                 'mladé lidi, kteří často používají internet a mobilní platby' : 
@@ -508,8 +508,14 @@
                         </div>
                         <div class="ml-11 space-y-3">
                             <p><strong>Dobrý den, ${address} [Příjmení].</strong></p>
-                            <p>Volám z České spořitelny, jmenuji se [Jméno]. Volám vám ohledně důležité informace o zabezpečení vašeho účtu.</p>
-                            <p>Máte teď chvilku času? Zabere to jen pár minut a může vám to ušetřit velké problémy.</p>
+                            <p>Dobrý den, Mediacall, jmenuji se [Jméno] a volám vám za Českou spořitelnu. Mluvím prosím s panem/paní [celé jméno]?</p>
+                            <p>Výborně. Abych si byl/a jistý/á, že hovořím se správnou osobou a nesděluji informace někomu cizímu, potřeboval/a bych si vás ověřit. </p>
+                            <p>Můžeme to udělat buď rychle a pohodlně přes aplikaci George, nebo standardně přes datum a místo narození. Co je pro vás pohodlnější?</p>
+
+                            <h3 class="text-xl font-semibold text-blue-800">Ověření přes George</h3>
+                            <p>Děkuji. Poprosím vás, abyste si otevřel/a aplikaci George. Uvidíte tam čtyřmístný kód, který je [přečíst čtyřmístný kód]. </p>
+                            <p>Prosím, potvrďte mi ho. Také tam vidíte mé jméno a telefonní číslo, ze kterého vám volám, to je vaše ochrana. </p>
+                            <p><strong>Děkuji. Ještě zmíním, že tento hovor je nahráván, což je pro zkvalitňování našich služeb a také pro vaši i naši ochranu.</strong></p>
                         </div>
                     </div>
 
@@ -517,9 +523,17 @@
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">2</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Micropříběh (${currentSettings.age === 'younger' ? 'mladší' : 'starší'})</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Důvod a micropříběh (${currentSettings.age === 'younger' ? 'mladší' : 'starší'})</h3>
                         </div>
                         <div class="ml-11 space-y-3">
+                            
+                            <p>Především bychom vám chtěli poděkovat, že jste naším klientem a za vaši důvěru. Je to pro nás velice důležité.</p> 
+
+                            <p>Volám vám, protože u nás máte účet [standard/plus] a k němu jsme vám posílali novou platební kartu. Přišla vám a funguje v pořádku?</p>
+                            <p>Pane/paní [Jméno] taky jsme zaznamenali, že zatím nemáte nastavené důležité zabezpečení vašich účtů a karet, které je dnes pro ochranu financí naprosto zásadní.</p>
+                            
+                            <p>Snažíme se aktivně chránit účty našich klientů, protože pokusy o jejich napadení stále narůstají, a proto pro vás má banka řešení.</p>
+                            
                             <p class="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
                                 <strong>Příběh:</strong> ${ageStory}
                             </p>
