@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Skript Pro - Telefonní Operátor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .objection-card {
+            transition: all 0.3s ease;
+        }
+        .objection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .active-button {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transform: scale(1.05);
+            color: white;
+        }
+        .script-section {
+            border-left: 4px solid #3b82f6;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+        .step-number {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">📞 Call Skript Pro</h1>
+            <p class="text-gray-600">Kompletní systém pro telefonní operátory s personalizací a odpověďmi na námitky</p>
+        </div>
+
+        <!-- Personalization Controls -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                ⚙️ Personalizace skriptu
+            </h2>
+            
+            <div class="grid md:grid-cols-4 gap-6">
+                <!-- Gender Selection -->
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-3">Pohlaví klienta:</h3>
+                    <div class="flex gap-2">
+                        <button onclick="setGender('male')" id="male-btn" 
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-blue-200 text-blue-700 hover:bg-blue-50 transition-all">
+                            👨 Muž
+                        </button>
+                        <button onclick="setGender('female')" id="female-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-pink-200 text-pink-700 hover:bg-pink-50 transition-all">
+                            👩 Žena
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Age Selection -->
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-3">Věková kategorie:</h3>
+                    <div class="flex gap-2">
+                        <button onclick="setAge('younger')" id="younger-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-green-200 text-green-700 hover:bg-green-50 transition-all">
+                            🧑 Mladší
+                        </button>
+                        <button onclick="setAge('older')" id="older-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-orange-200 text-orange-700 hover:bg-orange-50 transition-all">
+                            👴 Starší
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Family Status -->
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-3">Typ klienta:</h3>
+                    <div class="flex gap-2">
+                        <button onclick="setFamily('individual')" id="individual-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-purple-200 text-purple-700 hover:bg-purple-50 transition-all">
+                            👤 Jednotlivec
+                        </button>
+                        <button onclick="setFamily('family')" id="family-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-red-200 text-red-700 hover:bg-red-50 transition-all">
+                            👨‍👩‍👧‍👦 Rodina
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contract Method -->
+                <div>
+                    <h3 class="font-medium text-gray-700 mb-3">Způsob sjednání:</h3>
+                    <div class="flex gap-2">
+                        <button onclick="setContract('phone')" id="phone-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-cyan-200 text-cyan-700 hover:bg-cyan-50 transition-all">
+                            📞 Telefon
+                        </button>
+                        <button onclick="setContract('courier')" id="courier-btn"
+                                class="flex-1 py-2 px-4 rounded-lg border-2 border-yellow-200 text-yellow-700 hover:bg-yellow-50 transition-all">
+                            🚚 Kurýr
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call Script Display -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                📝 Personalizovaný call skript
+            </h2>
+            <div id="script-content">
+                <p class="text-gray-600 italic text-center py-8">Vyberte všechny možnosti personalizace pro zobrazení kompletního skriptu...</p>
+            </div>
+        </div>
+
+        <!-- Objections Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                💬 Odpovědi na námitky
+            </h2>
+
+            <!-- Objection Categories -->
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Category 1: General Objections -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-indigo-700 border-b-2 border-indigo-200 pb-2">
+                        🕒 Obecné námitky (čas, cena, pojištění)
+                    </h3>
+                    
+                    <div class="objection-card bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg border border-red-200 cursor-pointer" onclick="toggleObjection('obj1')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-red-800">1. "Nemám čas."</h4>
+                            <span class="text-red-600">▼</span>
+                        </div>
+                        <div id="obj1" class="hidden mt-3 text-sm text-red-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Rozumím, nechci vás zdržovat. Už jsme prakticky na konci, zabere to už jenom chviličku, maximálně minutku dvě, a vše vám pak pošleme do e-mailu nebo poštou. Opravdu vám to stojí za to mít ten klid. Co říkáte, můžeme to dokončit, ať nemusíte na nic myslet?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200 cursor-pointer" onclick="toggleObjection('obj2')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-orange-800">2. "Je to drahé / nechci nic navíc."</h4>
+                            <span class="text-orange-600">▼</span>
+                        </div>
+                        <div id="obj2" class="hidden mt-3 text-sm text-orange-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Je to samozřejmě vaše volba, ale podívejte se na to z jiné strany. Je to cena za klid. Když si uvědomíte, že měsíční poplatek je zhruba jako jedno kafe nebo pivo a získáte za to klid a ochranu účtu, karet, telefonu i dokladů, nebylo by to nakonec dobré rozhodnutí? Vždycky si můžete pojištění kdykoliv zrušit, pokud nebudete spokojený/á, ale mít ho pro ten klid je v dnešní době prostě rozumné. Co myslíte?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg border border-yellow-200 cursor-pointer" onclick="toggleObjection('obj3')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-yellow-800">3. "Už mám jiné pojištění."</h4>
+                            <span class="text-yellow-600">▼</span>
+                        </div>
+                        <div id="obj3" class="hidden mt-3 text-sm text-yellow-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je skvělé, že myslíte na svou ochranu. Můžu se zeptat, jaké pojištění máte? Často se stává, že klienti mají sjednané pojištění, které ale nekryje přímo online podvody nebo krádeže peněz z účtu. Naše pojištění se zaměřuje právě na tyto věci a doplňuje to, co běžné pojištění nevypořádá. Je to spíše taková speciální ochrana na míru pro váš účet a platební kartu. Nechcete si být jistý/á, že máte opravdu pokryto všechno?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200 cursor-pointer" onclick="toggleObjection('obj4')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-green-800">4. "Stát se to nemůže / mě se to netýká."</h4>
+                            <span class="text-green-600">▼</span>
+                        </div>
+                        <div id="obj4" class="hidden mt-3 text-sm text-green-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Chápu, že se to může zdát nepravděpodobné. Nikdo si nepřeje, aby se něco takového stalo. Ale podvodníci cílí na všechny, nejen na ty, co nemají zabezpečení. Důležitost spočívá právě v tom, mít zadní vrátka. Byla by velká škoda přijít o své peníze nebo věci, když tomu můžete za pár korun denně zabránit. Opravdu si myslíte, že se vám to nemůže stát? Co když se to stane třeba vašim dětem nebo partnerovi, kteří také platí kartou? Pojištění chrání celou rodinu. Je to prostě lepší to mít a nepotřebovat, než to potřebovat a nemít."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200 cursor-pointer" onclick="toggleObjection('obj5')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-blue-800">5. "Banka to přece chrání sama, ne?"</h4>
+                            <span class="text-blue-600">▼</span>
+                        </div>
+                        <div id="obj5" class="hidden mt-3 text-sm text-blue-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Je skvělé, že vnímáte, jak důležitá je bezpečnost. Je pravda, že banka má své bezpečnostní systémy. Naše pojištění ale funguje jako další vrstva ochrany, která se zaměřuje i na situace, jako jsou krádeže karty, mobilu nebo podvody, ke kterým dojde mimo naše systémy. Co si o tom myslíte? Není lepší mít jistotu?"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Technical Objections -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-purple-700 border-b-2 border-purple-200 pb-2">
+                        💻 Technické námitky
+                    </h3>
+                    
+                    <div class="objection-card bg-gradient-to-r from-indigo-50 to-indigo-100 p-4 rounded-lg border border-indigo-200 cursor-pointer" onclick="toggleObjection('obj6')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-indigo-800">1. "Myslím, že jsem dost technicky zdatný, abych nenaletěl."</h4>
+                            <span class="text-indigo-600">▼</span>
+                        </div>
+                        <div id="obj6" class="hidden mt-3 text-sm text-indigo-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je výborné, že si dáváte pozor. Dnešní podvodníci ale útočí chytře, a bohužel se stává, že i velmi zdatný člověk naletí. Toto pojištění je taková záchranná brzda. Pro případ, že se i přes veškerou vaši opatrnost stane něco neočekávaného. Je to jako mít havarijní pojištění na auto – doufáte, že ho nebudete potřebovat, ale když se něco stane, je to velká pomoc."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-lg border border-pink-200 cursor-pointer" onclick="toggleObjection('obj7')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-pink-800">2. "Myslím, že to nevyužiji."</h4>
+                            <span class="text-pink-600">▼</span>
+                        </div>
+                        <div id="obj7" class="hidden mt-3 text-sm text-pink-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Rozumím, proč to říkáte. Mohu se zeptat, z jakého důvodu si to myslíte? Většina našich klientů, kteří zpočátku váhali, ocenila, že pojištění chrání i jejich osobní věci jako mobil, klíče nebo doklady, protože tyto věci denně používá každý z nás. Co si myslíte, že by pro vás bylo největší překážkou?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-teal-50 to-teal-100 p-4 rounded-lg border border-teal-200 cursor-pointer" onclick="toggleObjection('obj8')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-teal-800">3. "Nenakupuji online."</h4>
+                            <span class="text-teal-600">▼</span>
+                        </div>
+                        <div id="obj8" class="hidden mt-3 text-sm text-teal-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Děkuji za upřesnění. To je jedna z výhod, ale pojištění je mnohem komplexnější. Chrání vás hlavně před zneužitím platební karty, ať už ji použijete kdekoliv – v obchodě, v restauraci nebo na výběr z bankomatu. Co myslíte, nebylo by dobré mít chráněné peníze, které denně používáte?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-cyan-50 to-cyan-100 p-4 rounded-lg border border-cyan-200 cursor-pointer" onclick="toggleObjection('obj9')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-cyan-800">4. "Nic neztrácím."</h4>
+                            <span class="text-cyan-600">▼</span>
+                        </div>
+                        <div id="obj9" class="hidden mt-3 text-sm text-cyan-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je skvělé, že si své věci hlídáte. Ale co třeba krádež? Stačí chvilka nepozornosti a zloděj vám vytáhne peněženku z kapsy nebo kabelky. Naše pojištění vám v takovém případě proplatí nejen hotovost, ale i doklady a další cennosti, které jste měl/a u sebe. V tom je ten rozdíl. Nešlo by spát klidněji s vědomím, že jste pro takový případ chráněný/á?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-lime-50 to-lime-100 p-4 rounded-lg border border-lime-200 cursor-pointer" onclick="toggleObjection('obj10')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-lime-800">5. "Účet mám jen na hypotéku."</h4>
+                            <span class="text-lime-600">▼</span>
+                        </div>
+                        <div id="obj10" class="hidden mt-3 text-sm text-lime-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Právě pro klienty, kteří mají účet na tak důležité transakce, jako je hypotéka nebo výplata, je tato ochrana klíčová. Chrání totiž vaše peníze před neoprávněnými transakcemi. Navíc se pojištění vztahuje i na osobní věci, které denně používáte. Není lepší mít jistotu i pro tak důležité věci?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-emerald-50 to-emerald-100 p-4 rounded-lg border border-emerald-200 cursor-pointer" onclick="toggleObjection('obj11')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-emerald-800">6. "Účet mám jen na výplatu nebo placení."</h4>
+                            <span class="text-emerald-600">▼</span>
+                        </div>
+                        <div id="obj11" class="hidden mt-3 text-sm text-emerald-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Přesně pro klienty jako vy je toto pojištění skvělé! Protože ho používáte pravidelně k platbám, je riziko, že by se někdo mohl dostat k vašim údajům. Představte si, že vám přijde podvodná SMS, že máte nedoplatek za telefon a odkaz vás nasměruje na falešnou platební bránu, kde zadáte údaje. To je situace, která se stane denně. A v ten moment vás naše pojištění chrání. Navíc chrání i vaše osobní věci, ať už jste kdekoliv. Je to jednoduše klid a jistota za pár korun denně."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Categories -->
+            <div class="mt-8 grid lg:grid-cols-2 gap-8">
+                <!-- Category 3: Refusal Objections -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-red-700 border-b-2 border-red-200 pb-2">
+                        🚫 Odmítnutí a dotazy
+                    </h3>
+                    
+                    <div class="objection-card bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg border border-red-200 cursor-pointer" onclick="toggleObjection('obj12')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-red-800">1. "Mám svého bankéře / Žádné aktuální informace nechci, mám od svého bankéře."</h4>
+                            <span class="text-red-600">▼</span>
+                        </div>
+                        <div id="obj12" class="hidden mt-3 text-sm text-red-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je výborné, že máte svého bankéře. Já vám nevolám s konkurenční nabídkou, ale jako zástupce České spořitelny. Jde o dodatečné zabezpečení, které má za cíl chránit vaše finance i osobní věci. Vím, že vás informací od banky může oslovit více, ale já bych vám rád/a řekl/a jen to nejdůležitější. Mohu?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200 cursor-pointer" onclick="toggleObjection('obj13')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-orange-800">2. "Co chcete?"</h4>
+                            <span class="text-orange-600">▼</span>
+                        </div>
+                        <div id="obj13" class="hidden mt-3 text-sm text-orange-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Omlouvám se, pokud jsem hovor nezačal/a úplně nejlépe. Volám vám, abychom zkontrolovali zabezpečení vaší nové platební karty. Ráda bych vám představila balíček, který vás ochrání nejen v online světě, ale i před krádeží osobních věcí. Máte teď chvilku?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg border border-yellow-200 cursor-pointer" onclick="toggleObjection('obj14')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-yellow-800">3. "Nebudu nic zřizovat po telefonu."</h4>
+                            <span class="text-yellow-600">▼</span>
+                        </div>
+                        <div id="obj14" class="hidden mt-3 text-sm text-yellow-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Naprosto to chápu. Přesně proto vás ověřujeme přes aplikaci George – abyste měl/a jistotu, že jednáte s námi a v bezpečí. Je to velmi jednoduchý a rychlý proces, který nám oběma ušetří čas. Mohu vám alespoň tu nabídku představit, abyste se mohl/a rozhodnout?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200 cursor-pointer" onclick="toggleObjection('obj15')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-green-800">4. "Jestli mi voláte s nějakou nabídkou, tak nechci."</h4>
+                            <span class="text-green-600">▼</span>
+                        </div>
+                        <div id="obj15" class="hidden mt-3 text-sm text-green-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Rozumím. Nechci vás zatěžovat zbytečnostmi. Jde o zabezpečení, které je v dnešní době nezbytné pro každého, kdo používá platební karty. A jak vidím, vy ho zatím nastavené nemáte. Nerad/a bych, abyste měl/a pocit, že vás banka dostatečně nechrání. Dovolíte mi, abych vám to v pár větách vysvětlil/a?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200 cursor-pointer" onclick="toggleObjection('obj16')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-blue-800">5. "Vyřídím si na pobočce."</h4>
+                            <span class="text-blue-600">▼</span>
+                        </div>
+                        <div id="obj16" class="hidden mt-3 text-sm text-blue-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je samozřejmě možné a máte na to právo. Jen vás upozorním, že vyřídit si to po telefonu je mnohem rychlejší. Než se dostanete na pobočku a počkáte ve frontě, můžeme to mít vyřešené za chvíli. Dovolíte, abych vám to alespoň stručně představil/a, abyste na pobočce už věděl/a, co si chcete sjednat?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-indigo-50 to-indigo-100 p-4 rounded-lg border border-indigo-200 cursor-pointer" onclick="toggleObjection('obj17')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-indigo-800">6. "Nechci v hovoru dále pokračovat."</h4>
+                            <span class="text-indigo-600">▼</span>
+                        </div>
+                        <div id="obj17" class="hidden mt-3 text-sm text-indigo-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je naprosto v pořádku, respektuji to. Děkuji vám za váš čas. Přeji vám příjemný den."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: Cost and Process -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-green-700 border-b-2 border-green-200 pb-2">
+                        💰 Cena a další námitky
+                    </h3>
+                    
+                    <div class="objection-card bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200 cursor-pointer" onclick="toggleObjection('obj18')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-green-800">1. "Kolik to stojí?"</h4>
+                            <span class="text-green-600">▼</span>
+                        </div>
+                        <div id="obj18" class="hidden mt-3 text-sm text-green-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Cena je velmi přijatelná - méně než káva denně. <span class="family-specific">Za celou rodinu</span> to vyjde na 149 Kč měsíčně. Když si představíte, kolik by vás stála jedna škoda - často desetitisíce korun..."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200 cursor-pointer" onclick="toggleObjection('obj19')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-blue-800">2. "Přejděte k věci."</h4>
+                            <span class="text-blue-600">▼</span>
+                        </div>
+                        <div id="obj19" class="hidden mt-3 text-sm text-blue-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Samozřejmě. Nabízíme pojištění proti kyberútokům za 149 Kč měsíčně. Pokryje škody až do 500 000 Kč a zahrnuje právní pomoc. <span class="family-specific">Chrání celou rodinu.</span> Zajímá vás to?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200 cursor-pointer" onclick="toggleObjection('obj20')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-purple-800">3. "Proč to není zdarma?"</h4>
+                            <span class="text-purple-600">▼</span>
+                        </div>
+                        <div id="obj20" class="hidden mt-3 text-sm text-purple-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Rozumím vaší otázce. Pojištění má svou hodnotu - pokrývá skutečné škody, právní pomoc a asistenční služby. Za 149 Kč měsíčně dostáváte ochranu až 500 000 Kč. To je velmi výhodný poměr."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg border border-red-200 cursor-pointer" onclick="toggleObjection('obj21')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-red-800">4. "Budu účet u České spořitelny rušit."</h4>
+                            <span class="text-red-600">▼</span>
+                        </div>
+                        <div id="obj21" class="hidden mt-3 text-sm text-red-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To by byla škoda, <span class="personalize-address">Pane/Paní</span>. Možná je to jen nedorozumění. Toto pojištění vám nabízíme jako benefit pro věrné klienty. Můžeme si o tom promluvit klidně a najít řešení, které vám bude vyhovovat."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200 cursor-pointer" onclick="toggleObjection('obj22')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-orange-800">5. "Na podvodné zprávy neklikám."</h4>
+                            <span class="text-orange-600">▼</span>
+                        </div>
+                        <div id="obj22" class="hidden mt-3 text-sm text-orange-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je skvělé, že jste opatrný! Ale podvodníci používají i jiné metody - falešné telefonáty, kdy se vydávají za banku, nebo zneužití ztracených dokladů. <span class="age-specific">Bohužel jsou stále vynalézavější</span>."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg border border-yellow-200 cursor-pointer" onclick="toggleObjection('obj23')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-yellow-800">6. "Nic neztrácím, své věci si hlídám."</h4>
+                            <span class="text-yellow-600">▼</span>
+                        </div>
+                        <div id="obj23" class="hidden mt-3 text-sm text-yellow-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "To je pochvalno! Ale i nejpečlivější lidé mohou být překvapeni. Pojištění pokrývá i situace, kdy ztratíte peněženku s kartami, nebo když vám někdo ukradne telefon s bankovními aplikacemi."
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-teal-50 to-teal-100 p-4 rounded-lg border border-teal-200 cursor-pointer" onclick="toggleObjection('obj24')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-teal-800">7. "Já o toto nemám zájem."</h4>
+                            <span class="text-teal-600">▼</span>
+                        </div>
+                        <div id="obj24" class="hidden mt-3 text-sm text-teal-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "Rozumím, <span class="personalize-address">Pane/Paní</span>. Možná vám to teď nepřijde důležité, ale když se něco stane, budete rádi za ochranu. Můžu vám aspoň poslat informace mailem pro případ, že si to rozmyslíte?"
+                        </div>
+                    </div>
+
+                    <div class="objection-card bg-gradient-to-r from-cyan-50 to-cyan-100 p-4 rounded-lg border border-cyan-200 cursor-pointer" onclick="toggleObjection('obj25')">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-cyan-800">8. "Účet nevyužívám."</h4>
+                            <span class="text-cyan-600">▼</span>
+                        </div>
+                        <div id="obj25" class="hidden mt-3 text-sm text-cyan-700 bg-white p-3 rounded border">
+                            <strong>Odpověď:</strong> "I když účet nevyužíváte aktivně, stále tam máte své údaje a může být zneužit. Navíc pojištění chrání i vaše osobní věci - peněženku, doklady, telefon. <span class="family-specific">A pokrývá celou rodinu</span>."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSettings = {
+            gender: null,
+            age: null,
+            family: null,
+            contract: null
+        };
+
+        function setGender(gender) {
+            currentSettings.gender = gender;
+            updateButtonStates('gender', gender);
+            updateScript();
+        }
+
+        function setAge(age) {
+            currentSettings.age = age;
+            updateButtonStates('age', age);
+            updateScript();
+        }
+
+        function setFamily(family) {
+            currentSettings.family = family;
+            updateButtonStates('family', family);
+            updateScript();
+        }
+
+        function setContract(contract) {
+            currentSettings.contract = contract;
+            updateButtonStates('contract', contract);
+            updateScript();
+        }
+
+        function updateButtonStates(category, value) {
+            // Reset all buttons in category
+            if (category === 'gender') {
+                document.getElementById('male-btn').classList.remove('active-button');
+                document.getElementById('female-btn').classList.remove('active-button');
+                document.getElementById(value + '-btn').classList.add('active-button');
+            } else if (category === 'age') {
+                document.getElementById('younger-btn').classList.remove('active-button');
+                document.getElementById('older-btn').classList.remove('active-button');
+                document.getElementById(value + '-btn').classList.add('active-button');
+            } else if (category === 'family') {
+                document.getElementById('individual-btn').classList.remove('active-button');
+                document.getElementById('family-btn').classList.remove('active-button');
+                document.getElementById(value + '-btn').classList.add('active-button');
+            } else if (category === 'contract') {
+                document.getElementById('phone-btn').classList.remove('active-button');
+                document.getElementById('courier-btn').classList.remove('active-button');
+                document.getElementById(value + '-btn').classList.add('active-button');
+            }
+        }
+
+        function updateScript() {
+            const scriptContent = document.getElementById('script-content');
+            
+            if (!currentSettings.gender || !currentSettings.age || !currentSettings.family || !currentSettings.contract) {
+                scriptContent.innerHTML = '<p class="text-gray-600 italic text-center py-8">Vyberte všechny možnosti personalizace pro zobrazení kompletního skriptu...</p>';
+                return;
+            }
+
+            const address = currentSettings.gender === 'male' ? 'Pane' : 'Paní';
+            const addressInstr = currentSettings.gender === 'male' ? 'Panem' : 'Paní';
+            
+            const ageStory = currentSettings.age === 'younger' ? 
+                'Nedávno se mladému muži stalo, že mu přišla SMS, že má zablokovanou kartu. Klikl na odkaz a zadal své údaje. Během hodiny mu z účtu zmizelo 50 000 Kč.' : 
+                'Paní důchodkyně dostala telefonát od "banky", že jí někdo chce vybrat peníze. Aby to zabránila, měla zadat kódy z SMS. Přišla tak o své úspory - 80 000 Kč.';
+            
+            const ageSpecific = currentSettings.age === 'younger' ? 
+                'mladé lidi, kteří často používají internet a mobilní platby' : 
+                'zkušené lidi, kteří si zaslouží klid a jistotu ve svém věku';
+            
+            const familyVariant = currentSettings.family === 'family' ? 
+                'rodinnou variantu, která chrání všechny členy domácnosti' : 
+                'individuální variantu přesně na míru vašim potřebám';
+            
+            const familySpecific = currentSettings.family === 'family' ? 
+                'vaši rodinu a všechny členy domácnosti' : 'vás osobně';
+            
+            const contractMethod = currentSettings.contract === 'phone' ? 
+                'můžeme vše vyřídit hned teď po telefonu - je to rychlé a bezpečné' : 
+                'pošleme vám kurýra s dokumenty přímo domů - pohodlně a bez starostí';
+
+            scriptContent.innerHTML = `
+                <div class="space-y-6">
+                    <!-- Step 1: Introduction -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">1</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Úvod a seznámení</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            <p><strong>Dobrý den, ${address} [Příjmení].</strong></p>
+                            <p>Volám z České spořitelny, jmenuji se [Jméno]. Volám vám ohledně důležité informace o zabezpečení vašeho účtu.</p>
+                            <p>Máte teď chvilku času? Zabere to jen pár minut a může vám to ušetřit velké problémy.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Micro-story -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">2</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Micropříběh (${currentSettings.age === 'younger' ? 'mladší' : 'starší'})</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            <p class="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
+                                <strong>Příběh:</strong> ${ageStory}
+                            </p>
+                            <p>Bohužel takové případy vidíme stále častěji. Proto banka připravila speciální pojištění, které chrání ${ageSpecific}.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Needs assessment -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">3</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Zjišťování potřeb a výběr varianty</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            <p>Nabízíme ${familyVariant}.</p>
+                            <p><strong>Tato varianta zahrnuje:</strong></p>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                ${currentSettings.family === 'family' ? 
+                                    '<li>Ochranu pro všechny členy domácnosti</li><li>Krytí až 500 000 Kč na rodinu</li><li>Ochranu dětských účtů a karet</li>' : 
+                                    '<li>Individuální ochranu přesně pro vás</li><li>Krytí až 300 000 Kč</li><li>Osobní asistenci při řešení problémů</li>'
+                                }
+                                <li>Právní pomoc a poradenství</li>
+                                <li>24/7 asistenční linku</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Additional benefits -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">4</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Rozšíření o další benefity</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-blue-700">🛡️ Ochrana osobních věcí a elektroniky</h4>
+                                <p>Pojištění pokrývá i ztrátu nebo krádež peněženky, dokladů, telefonu nebo tabletu s bankovními aplikacemi.</p>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-3 rounded border-l-4 border-blue-400">
+                                <h4 class="font-semibold text-blue-700">📱 Micropříběh - elektronika</h4>
+                                <p class="text-sm">${currentSettings.age === 'younger' ? 
+                                    'Studentce ukradli telefon s bankovní aplikací. Zloděj stihl provést několik plateb, než si toho všimla. Pojištění jí uhradilo škodu 15 000 Kč.' : 
+                                    'Panu důchodci spadl telefon a rozbil se. Než stihl karty zablokovat, někdo našel telefon a zneužil platební aplikaci. Pojištění pokrylo škodu 8 000 Kč.'
+                                }</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-blue-700">🛒 Ochrana nákupů přes internet</h4>
+                                <p>Pokrývá i situace, kdy nezískáte zboží, za které jste zaplatili, nebo když vám přijde poškozené zboží.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Price presentation -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">5</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Seznámení s cenou a závěr</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            <p><strong>Cena tohoto pojištění je ${currentSettings.family === 'family' ? '149 Kč měsíčně za celou rodinu' : '99 Kč měsíčně'}.</strong></p>
+                            <p>To je méně než káva denně, ale chrání ${familySpecific} před škodami v řádu desetitisíců korun.</p>
+                            <p class="bg-green-50 p-3 rounded border-l-4 border-green-400">
+                                <strong>Přirovnání:</strong> Je to jako pojištění auta - doufáme, že ho nebudete potřebovat, ale když ano, budete rádi, že ho máte.
+                            </p>
+                            <p><strong>Co říkáte, ${address} [Příjmení], zajímá vás tato ochrana?</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Mandatory information -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">6</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Povinné informace a záznam</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            <p><strong>Důležité informace:</strong></p>
+                            <ul class="list-disc list-inside ml-4 space-y-1 text-sm">
+                                <li>Pojištění poskytuje [Název pojišťovny]</li>
+                                <li>Hovor je nahráván pro účely kontroly kvality</li>
+                                <li>Pojistné podmínky vám zašleme mailem</li>
+                                <li>Máte právo od smlouvy odstoupit do 14 dnů</li>
+                                <li>Pojištění začíná platit od následujícího dne po sjednání</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Contract method -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">7</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Způsob sjednání - ${currentSettings.contract === 'phone' ? 'Po telefonu' : 'Kurýrem'}</h3>
+                        </div>
+                        <div class="ml-11 space-y-3">
+                            ${currentSettings.contract === 'phone' ? 
+                                `<p><strong>Sjednání po telefonu:</strong></p>
+                                <p>Skvělé! Můžeme to vyřídit hned teď. Potřebuji od vás jen potvrdit základní údaje a váš souhlas s pojistnými podmínkami.</p>
+                                <p>Celý proces zabere jen pár minut a pojištění bude aktivní už zítra.</p>
+                                <p class="bg-blue-50 p-3 rounded">
+                                    <strong>Postup:</strong><br>
+                                    1. Ověření osobních údajů<br>
+                                    2. Souhlas s podmínkami<br>
+                                    3. Potvrzení sjednání<br>
+                                    4. Zaslání dokumentů mailem
+                                </p>` : 
+                                `<p><strong>Sjednání kurýrem:</strong></p>
+                                <p>Výborně! Pošleme vám kurýra s dokumenty přímo domů. Je to pohodlné a máte čas si vše v klidu přečíst.</p>
+                                <p>Kurýr přijede v termínu, který vám bude vyhovovat, a vše vyřídíte na místě.</p>
+                                <p class="bg-blue-50 p-3 rounded">
+                                    <strong>Postup:</strong><br>
+                                    1. Domluvíme termín návštěvy<br>
+                                    2. Kurýr přinese dokumenty<br>
+                                    3. Vyplníte smlouvu doma<br>
+                                    4. Pojištění je aktivní následující den
+                                </p>`
+                            }
+                            <p><strong>Takže můžeme pokračovat, ${address} [Příjmení]?</strong></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Update personalization in objection responses
+            updateObjectionPersonalization();
+        }
+
+        function updateObjectionPersonalization() {
+            const address = currentSettings.gender === 'male' ? 'Pane' : 'Paní';
+            const ageSpecific = currentSettings.age === 'younger' ? 
+                'Právě mladí lidé jsou často terčem sofistikovaných útoků' : 
+                'Bohužel starší lidé jsou častým cílem podvodníků';
+            const familySpecific = currentSettings.family === 'family' ? 
+                'vás a vaši rodinu' : 'vás osobně';
+            const contractMethod = currentSettings.contract === 'phone' ? 
+                'můžeme to vyřídit pohodlně po telefonu' : 
+                'můžeme vám poslat kurýra s dokumenty domů';
+
+            // Update all personalization spans
+            document.querySelectorAll('.personalize-address').forEach(span => {
+                span.textContent = address;
+            });
+            
+            document.querySelectorAll('.age-specific').forEach(span => {
+                span.textContent = ageSpecific;
+            });
+            
+            document.querySelectorAll('.family-specific').forEach(span => {
+                span.textContent = familySpecific;
+            });
+
+            document.querySelectorAll('.contract-method').forEach(span => {
+                span.textContent = contractMethod;
+            });
+        }
+
+        function toggleObjection(objId) {
+            const objElement = document.getElementById(objId);
+            const isHidden = objElement.classList.contains('hidden');
+            
+            // Hide all other objections
+            document.querySelectorAll('[id^="obj"]').forEach(el => {
+                if (el.id !== objId) {
+                    el.classList.add('hidden');
+                }
+            });
+            
+            // Toggle current objection
+            if (isHidden) {
+                objElement.classList.remove('hidden');
+            } else {
+                objElement.classList.add('hidden');
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a10f0b6671f986',t:'MTc1NDM0MjAwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
