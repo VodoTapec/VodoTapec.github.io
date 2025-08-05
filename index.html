@@ -143,7 +143,7 @@
                             <span class="text-red-600">▼</span>
                         </div>
                         <div id="obj1" class="hidden mt-3 text-sm text-red-700 bg-white p-3 rounded border">
-                            <strong>Odpověď:</strong> "Rozumím, nechci vás zdržovat. Už jsme prakticky na konci, zabere to už jenom chviličku, maximálně minutku dvě, a vše vám pak pošleme do e-mailu nebo poštou. Opravdu vám to stojí za to mít ten klid. Co říkáte, můžeme to dokončit, ať nemusíte na nic myslet?"
+                            <strong>Odpověď:</strong> "Pane/Paní [jméno], hovor zabere pár minut, déle vás nezdržím, volám ohledně aktuálních informací z České spořitelny, minimálně stojí za vyslechnutí. Zvládneme to spolu?"
                         </div>
                     </div>
 
@@ -480,8 +480,8 @@
             const addressInstr = currentSettings.gender === 'male' ? 'Panem' : 'Paní';
             
             const ageStory = currentSettings.age === 'younger' ? 
-                '<p><Strong>Pane/paní [jméno], setkal/a jste se někdy s pojmem phishing?"</strong></p>  (Reakce na odpověď) <p> Představte si, že vám přijde e-mail, který vypadá, jako by byl od banky. Píše se v něm, že byl váš účet zablokován a musíte kliknout na odkaz.</p> <p>Ten odkaz vás ale zavede na falešnou stránku, která vypadá jako naše, ale ve skutečnosti je to past. </p><p>Jakmile tam zadáte své údaje, útočníci je zneužijí a vykradou vám účet. Útoky phishingu se mimochodem za poslední rok ztrojnásobily. </p><p><strong>S naší ochranou účtu ale máte jistotu, že i kdyby se vám to stalo a o peníze přišel/a, dostanete je zpět."</strong></p>' : 
-                'Představte si, že vám přijde SMS zpráva, která vypadá jako od České pošty, že máte nedoplatek za doručení balíčku, který jste si objednal/a. Odkaz vás navede na stránku, kde máte zadat údaje od karty, aby se balíček mohl doručit. V ten moment ale neposíláte peníze poště, ale přímo podvodníkům. A přesně proti takové situaci, kdy přijdete o peníze, vás naše zabezpečení chrání. Co si o tom myslíte? Řešil/a byste takovou situaci raději s klidem, že se vám peníze vrátí?';
+                'Nedávno se mladému muži stalo, že mu přišla SMS, že má zablokovanou kartu. Klikl na odkaz a zadal své údaje. Během hodiny mu z účtu zmizelo 50 000 Kč.' : 
+                'Paní důchodkyně dostala telefonát od "banky", že jí někdo chce vybrat peníze. Aby to zabránila, měla zadat kódy z SMS. Přišla tak o své úspory - 80 000 Kč.';
             
             const ageSpecific = currentSettings.age === 'younger' ? 
                 'mladé lidi, kteří často používají internet a mobilní platby' : 
@@ -500,158 +500,553 @@
 
             scriptContent.innerHTML = `
                 <div class="space-y-6">
-                    <!-- Step 1: Introduction -->
+                    <!-- Step 1: Opening and Verification -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">1</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Úvod a seznámení</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Úvod a ověření (zachování přirozenosti)</h3>
                         </div>
                         <div class="ml-11 space-y-3">
-                            <p><strong>Dobrý den, ${address} [Příjmení].</strong></p>
-                            <p>Dobrý den, Mediacall, jmenuji se [Jméno] a volám vám za Českou spořitelnu. Mluvím prosím s panem/paní [celé jméno]?</p>
-                            <p>Výborně. Abych si byl/a jistý/á, že hovořím se správnou osobou a nesděluji informace někomu cizímu, potřeboval/a bych si vás ověřit. </p>
-                            <p>Můžeme to udělat buď rychle a pohodlně přes aplikaci George, nebo standardně přes datum a místo narození. Co je pro vás pohodlnější?</p>
-
-                            <h3 class="text-xl font-semibold text-blue-800">Ověření přes George</h3>
-                            <p>Děkuji. Poprosím vás, abyste si otevřel/a aplikaci George. Uvidíte tam čtyřmístný kód, který je [přečíst čtyřmístný kód]. </p>
-                            <p>Prosím, potvrďte mi ho. Také tam vidíte mé jméno a telefonní číslo, ze kterého vám volám, to je vaše ochrana. </p>
-                            <p><strong>Děkuji. Ještě zmíním, že tento hovor je nahráván, což je pro zkvalitňování našich služeb a také pro vaši i naši ochranu.</strong></p>
+                            <p><strong>"Dobrý den, Mediacall jmenuji se [vaše jméno a příjmení] a volám za Českou spořitelnu. Mluvím prosím s ${addressInstr} [celé jméno]?"</strong></p>
+                            
+                            <p><strong>"Výborně. Abych si byl/a jistý/á, že hovořím se správnou osobou a nesdělovala informace někomu cizímu, potřeboval/a bych si vás ověřit. Můžeme to udělat buď rychle a pohodlně přes aplikaci George, nebo standardně přes datum a místo narození. Co je pro vás pohodlnější?"</strong></p>
+                            
+                            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                <p><strong>Ověření přes George:</strong></p>
+                                <p>"Děkuji. Poprosím vás, abyste si otevřel/a aplikaci George. Uvidíte tam čtyřmístný kód, který je [přečíst čtyřmístný kód]. Prosím, potvrďte mi ho. Také tam vidíte mé jméno a telefonní číslo, ze kterého vám volám."</p>
+                            </div>
+                            
+                            <p><strong>"Děkuji. Ještě zmíním, že tento hovor je nahráván, a bude uchován kvůli zkvalitňování našich služeb a také pro vaši i naši ochranu."</strong></p>
                         </div>
                     </div>
 
-                    <!-- Step 2: Micro-story -->
+                    <!-- Step 2: Topic Introduction -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">2</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Důvod a micropříběh (${currentSettings.age === 'younger' ? 'mladší' : 'starší'})</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Představení tématu (plynule navazující na úvod)</h3>
                         </div>
                         <div class="ml-11 space-y-3">
+                            <p><strong>"Především bychom vám chtěli poděkovat, že jste naším klientem a za vaši důvěru. Je to pro nás velice důležité."</strong></p>
                             
-                            <p>Především bychom vám chtěli poděkovat, že jste naším klientem a za vaši důvěru. Je to pro nás velice důležité.</p> 
-
-                            <p>Volám vám, protože u nás máte účet [standard/plus] a k němu jsme vám posílali novou platební kartu. Přišla vám a funguje v pořádku?</p>
-                            <p>Pane/paní [Jméno] taky jsme zaznamenali, že zatím nemáte nastavené důležité zabezpečení vašich účtů a karet, které je dnes pro ochranu financí naprosto zásadní.</p>
+                            <p><strong>"Volám vám, protože u nás máte účet [standard/plus] ke kterému jsme vám posílali novou platební kartu. Přišla vám a funguje v pořádku?"</strong></p>
                             
-                            <p>Snažíme se aktivně chránit účty našich klientů, protože pokusy o jejich napadení stále narůstají, a proto pro vás má banka řešení.</p>
+                            <div class="bg-green-50 p-3 rounded border-l-4 border-green-400 text-sm">
+                                <strong>Reakce:</strong> "Tak to ráda slyším..."
+                            </div>
                             
-                            <p class="bg-yellow-50 p-3 rounded border-l-4 border-yellow-400">
-                                <strong>Příběh:</strong> ${ageStory}
-                            </p>
-                            <p>Bohužel takové případy vidíme stále častěji. Proto banka připravila speciální pojištění, které chrání ${ageSpecific}.</p>
+                            <p><strong>"${address} [celé jméno] zaznamenali jsme, že jako jeden/jedna z mála zatím nemáte nastavené důležité zabezpečení účtu a karet, které je dnes pro ochranu financí naprosto zásadní."</strong></p>
+                            
+                            <p><strong>"Snažíme se aktivně chránit účty našich klientů, protože pokusy o jejich napadení stále narůstají, a proto připravila banka řešení."</strong></p>
                         </div>
                     </div>
 
-                    <!-- Step 3: Needs assessment -->
+                    <!-- Step 3: Micro-stories -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">3</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Zjišťování potřeb a výběr varianty</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Mikropříběhy (vyberte podle situace)</h3>
                         </div>
-                        <div class="ml-11 space-y-3">
-                            <p>Nabízíme ${familyVariant}.</p>
-                            <p><strong>Tato varianta zahrnuje:</strong></p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                ${currentSettings.family === 'family' ? 
-                                    '<li>Ochranu pro všechny členy domácnosti</li><li>Krytí až 500 000 Kč na rodinu</li><li>Ochranu dětských účtů a karet</li>' : 
-                                    '<li>Individuální ochranu přesně pro vás</li><li>Krytí až 300 000 Kč</li><li>Osobní asistenci při řešení problémů</li>'
-                                }
-                                <li>Právní pomoc a poradenství</li>
-                                <li>24/7 asistenční linku</li>
-                            </ul>
+                        <div class="ml-11 space-y-4">
+                            <!-- Micro-story Selection Buttons -->
+                            <div class="bg-gray-50 p-4 rounded border-l-4 border-gray-400 mb-6">
+                                <h4 class="font-semibold text-gray-800 mb-3">📖 Vyberte vhodný mikropříběh:</h4>
+                                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                                    <button onclick="showMicroStory('phishing')" id="phishing-story-btn" 
+                                            class="p-3 rounded-lg border-2 border-red-200 text-red-700 hover:bg-red-50 transition-all text-sm">
+                                        📧 Phishing útok
+                                    </button>
+                                    <button onclick="showMicroStory('skimming')" id="skimming-story-btn"
+                                            class="p-3 rounded-lg border-2 border-orange-200 text-orange-700 hover:bg-orange-50 transition-all text-sm">
+                                        💳 Skimming karty
+                                    </button>
+                                    <button onclick="showMicroStory('phone')" id="phone-story-btn"
+                                            class="p-3 rounded-lg border-2 border-blue-200 text-blue-700 hover:bg-blue-50 transition-all text-sm">
+                                        📱 Ztracený telefon
+                                    </button>
+                                    <button onclick="showMicroStory('keys')" id="keys-story-btn"
+                                            class="p-3 rounded-lg border-2 border-green-200 text-green-700 hover:bg-green-50 transition-all text-sm">
+                                        🔑 Ztracené klíče
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Micro-story Content -->
+                            <div id="micro-story-content">
+                                <p class="text-gray-600 italic text-center py-4">Vyberte mikropříběh pro zobrazení...</p>
+                            </div>
+
+                            <!-- Value Proposition Story -->
+                            <div class="bg-purple-50 p-4 rounded border-l-4 border-purple-400">
+                                <h4 class="font-semibold text-purple-800 mb-2">💰 Cenová argumentace:</h4>
+                                <p><strong>"${address} [jméno], ${currentSettings.family === 'family' ? '159 Kč' : '99 Kč'} to je v dnešní době plato vajec, a tady za tu cenu nejen, že máte chráněné finance až do výše ${currentSettings.family === 'family' ? '400' : '200'} tisíc korun. Ale i ty osobní věci a i nákupy na internetu. A navíc s nákupy na internetu riziko napadení účtu narůstá. Tak pojďme tomu raději předejít a zabezpečit i účet pro vás. Souhlasíte?"</strong></p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Step 4: Additional benefits -->
+                    <!-- Step 4: Client Needs Assessment -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">4</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Rozšíření o další benefity</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Zjištění potřeb klienta (přirozená konverzace)</h3>
                         </div>
-                        <div class="ml-11 space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-blue-700">🛡️ Ochrana osobních věcí a elektroniky</h4>
-                                <p>Pojištění pokrývá i ztrátu nebo krádež peněženky, dokladů, telefonu nebo tabletu s bankovními aplikacemi.</p>
+                        <div class="ml-11 space-y-3">
+                            <p><strong>"${address} [jméno], pro zvolení varianty, která bude pro vás nejvhodnější, bych se vás rád/a zeptal/a na pár otázek."</strong></p>
+                            
+                            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                <p><strong>"Máte ve společné domácnosti manžela/ku, partnera/ku, nebo děti do 18 let?"</strong></p>
+                                <p><strong>"A má také účet u České spořitelny?"</strong></p>
+                                <p class="text-sm text-blue-700">(Tato informace pomůže v rozhodování mezi jednotlivcem a rodinnou variantou)</p>
                             </div>
                             
-                            <div class="bg-blue-50 p-3 rounded border-l-4 border-blue-400">
-                                <h4 class="font-semibold text-blue-700">📱 Micropříběh - elektronika</h4>
-                                <p class="text-sm">${currentSettings.age === 'younger' ? 
-                                    'Studentce ukradli telefon s bankovní aplikací. Zloděj stihl provést několik plateb, než si toho všimla. Pojištění jí uhradilo škodu 15 000 Kč.' : 
-                                    'Panu důchodci spadl telefon a rozbil se. Než stihl karty zablokovat, někdo našel telefon a zneužil platební aplikaci. Pojištění pokrylo škodu 8 000 Kč.'
-                                }</p>
-                            </div>
+                            <p><strong>"Dobře. Ještě se zeptám, nosíte u sebe cenné věci jako mobil, klíče, brýle, peněženku? Určitě ano, že?"</strong></p>
                             
-                            <div>
-                                <h4 class="font-semibold text-blue-700">🛒 Ochrana nákupů přes internet</h4>
-                                <p>Pokrývá i situace, kdy nezískáte zboží, za které jste zaplatili, nebo když vám přijde poškozené zboží.</p>
-                            </div>
+                            <p><strong>"A jak často nakupujete přes internet?"</strong></p>
                         </div>
                     </div>
 
-                    <!-- Step 5: Price presentation -->
+                    <!-- Step 5: Package Presentation -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">5</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Seznámení s cenou a závěr</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Prezentace balíčku (důraz na výhody)</h3>
                         </div>
-                        <div class="ml-11 space-y-3">
-                            <p><strong>Cena tohoto pojištění je ${currentSettings.family === 'family' ? '149 Kč měsíčně za celou rodinu' : '99 Kč měsíčně'}.</strong></p>
-                            <p>To je méně než káva denně, ale chrání ${familySpecific} před škodami v řádu desetitisíců korun.</p>
-                            <p class="bg-green-50 p-3 rounded border-l-4 border-green-400">
-                                <strong>Přirovnání:</strong> Je to jako pojištění auta - doufáme, že ho nebudete potřebovat, ale když ano, budete rádi, že ho máte.
-                            </p>
-                            <p><strong>Co říkáte, ${address} [Příjmení], zajímá vás tato ochrana?</strong></p>
+                        <div class="ml-11 space-y-4">
+                            <p><strong>"Na základě toho, co jste mi řekl/a, bych vám doporučil/a balíček [${currentSettings.family === 'family' ? 'Rodina' : 'Jednotlivec'}], který je pro vás ideální."</strong></p>
                         </div>
                     </div>
 
-                    <!-- Step 6: Mandatory information -->
+                    <!-- Step 6: Benefits and Pricing -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">6</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Povinné informace a záznam</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Výhody a cena</h3>
                         </div>
-                        <div class="ml-11 space-y-3">
-                            <p><strong>Důležité informace:</strong></p>
-                            <ul class="list-disc list-inside ml-4 space-y-1 text-sm">
-                                <li>Pojištění poskytuje [Název pojišťovny]</li>
-                                <li>Hovor je nahráván pro účely kontroly kvality</li>
-                                <li>Pojistné podmínky vám zašleme mailem</li>
-                                <li>Máte právo od smlouvy odstoupit do 14 dnů</li>
-                                <li>Pojištění začíná platit od následujícího dne po sjednání</li>
-                            </ul>
+                        <div class="ml-11 space-y-4">
+                            <!-- Account Protection -->
+                            <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                                <h4 class="font-semibold text-green-800 mb-2">💳 Ochrana účtu</h4>
+                                <p><strong>"V této variantě máte chráněný účet do limitu ${currentSettings.family === 'family' ? '400 tis. Kč' : '200 tis. Kč'}. To znamená, že pokud by došlo k neoprávněné transakci a přišel/a byste o peníze, my vám je vrátíme."</strong></p>
+                            </div>
+                            
+                            <!-- Personal Items Protection -->
+                            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                <h4 class="font-semibold text-blue-800 mb-2">👜 Ochrana osobních věcí</h4>
+                                <p><strong>"Navíc budete mít pojištěné vaše osobní věci jako peněženku, brýle, klíče, doklady a další. V případě ztráty nebo krádeže vám proplatíme jejich hodnotu do limitu ${currentSettings.family === 'family' ? '100 tis. Kč' : '50 tis. Kč'}."</strong></p>
+                            </div>
+                            
+                            <!-- Electronics Protection -->
+                            <div class="bg-purple-50 p-4 rounded border-l-4 border-purple-400">
+                                <h4 class="font-semibold text-purple-800 mb-2">📱 Ochrana elektroniky</h4>
+                                <p><strong>"Chráněna je i elektronika do 5 let od pořízení, jako je notebook, foťák nebo mobil. Kdyby vám někdo ukradl telefon, proplatíme vám jeho hodnotu. Kdyby se vám ho podařilo ztratit, dostanete zpět půlku z pořizovací ceny do limitu 10 000 Kč za jednu věc."</strong></p>
+                                <p><strong>"To, že získáte peníze zpět na novou věc, je skvělé, co myslíte?"</strong></p>
+                            </div>
+                            
+                            <!-- Online Shopping Protection -->
+                            <div class="bg-orange-50 p-4 rounded border-l-4 border-orange-400">
+                                <h4 class="font-semibold text-orange-800 mb-2">🛒 Ochrana online nákupů</h4>
+                                <p><strong>"Další velkou výhodou je ochrana nákupů přes internet. Jestliže vám zboží nepřijde, přijde poškozené, nebo dokonce e-shop zkrachuje, dostanete náhradu do ${currentSettings.family === 'family' ? '100 tis. Kč' : '50 tis. Kč'}."</strong></p>
+                                <p><strong>"Platí to pro nákupy z ČR, EU a USA a dokonce i pro nákupy z druhé ruky nebo z Číny, kde je limit do ${currentSettings.family === 'family' ? '10 tis. Kč' : '5 tis. Kč'}."</strong></p>
+                            </div>
+                            
+                            <!-- Validity -->
+                            <div class="bg-cyan-50 p-4 rounded border-l-4 border-cyan-400">
+                                <h4 class="font-semibold text-cyan-800 mb-2">🌍 Platnost</h4>
+                                <p><strong>"Velkou výhodou je, že toto zabezpečení platí po celém světě a je sjednané na dobu neurčitou, takže využíváte tak dlouho, dokud budete spokojen/a."</strong></p>
+                            </div>
+                            
+                            <!-- Price -->
+                            <div class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-400">
+                                <h4 class="font-semibold text-yellow-800 mb-2">💰 Cena</h4>
+                                <p class="text-2xl font-bold text-green-600">${currentSettings.family === 'family' ? '5,30 Kč denně (159 Kč měsíčně)' : '3,30 Kč denně (99 Kč měsíčně)'}</p>
+                                <p><strong>"Tato kompletní ochrana pro ${currentSettings.family === 'family' ? 'Rodinu' : 'Jednotlivce'} vás vyjde jen na ${currentSettings.family === 'family' ? '5,30 Kč' : '3,30 Kč'} na den, což je měsíčně ${currentSettings.family === 'family' ? '159 Kč' : '99 Kč'}."</strong></p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Step 7: Contract method -->
+                    <!-- Step 7: Closing Question -->
                     <div class="script-section p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="step-number">7</div>
-                            <h3 class="text-xl font-semibold text-blue-800">Způsob sjednání - ${currentSettings.contract === 'phone' ? 'Po telefonu' : 'Kurýrem'}</h3>
+                            <h3 class="text-xl font-semibold text-blue-800">Dotaz na uzavření (jasné a přesvědčivé)</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            <div class="bg-red-50 p-4 rounded border-l-4 border-red-400">
+                                <p class="text-xl font-bold text-red-800"><strong>"Hodí se vám mít takto nastavený balíček, abyste byl/a chráněn/a od půlnoci?"</strong></p>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-green-50 p-4 rounded border border-green-300">
+                                    <h4 class="font-semibold text-green-800 mb-2">✅ Pokud klient souhlasí:</h4>
+                                    <p><strong>"Výborně, to jsem rád/a. Ještě vám přečtu povinné informace a pustíme se do sjednání."</strong></p>
+                                </div>
+                                
+                                <div class="bg-orange-50 p-4 rounded border border-orange-300">
+                                    <h4 class="font-semibold text-orange-800 mb-2">❌ Pokud klient nesouhlasí:</h4>
+                                    <p>Přichází na řadu řešení námitek (viz sekce níže)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: Contract Process -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">8</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Proces sjednání - ${currentSettings.contract === 'phone' ? 'Po telefonu' : 'Kurýrem'}</h3>
                         </div>
                         <div class="ml-11 space-y-3">
                             ${currentSettings.contract === 'phone' ? 
-                                `<p><strong>Sjednání po telefonu:</strong></p>
-                                <p>Skvělé! Můžeme to vyřídit hned teď. Potřebuji od vás jen potvrdit základní údaje a váš souhlas s pojistnými podmínkami.</p>
-                                <p>Celý proces zabere jen pár minut a pojištění bude aktivní už zítra.</p>
-                                <p class="bg-blue-50 p-3 rounded">
-                                    <strong>Postup:</strong><br>
-                                    1. Ověření osobních údajů<br>
-                                    2. Souhlas s podmínkami<br>
-                                    3. Potvrzení sjednání<br>
-                                    4. Zaslání dokumentů mailem
-                                </p>` : 
-                                `<p><strong>Sjednání kurýrem:</strong></p>
-                                <p>Výborně! Pošleme vám kurýra s dokumenty přímo domů. Je to pohodlné a máte čas si vše v klidu přečíst.</p>
-                                <p>Kurýr přijede v termínu, který vám bude vyhovovat, a vše vyřídíte na místě.</p>
-                                <p class="bg-blue-50 p-3 rounded">
-                                    <strong>Postup:</strong><br>
-                                    1. Domluvíme termín návštěvy<br>
-                                    2. Kurýr přinese dokumenty<br>
-                                    3. Vyplníte smlouvu doma<br>
-                                    4. Pojištění je aktivní následující den
-                                </p>`
+                                `<p><strong>Sjednání po telefonu je rychlé a bezpečné:</strong></p>
+                                <div class="bg-blue-50 p-4 rounded">
+                                    <p><strong>Postup:</strong></p>
+                                    <ol class="list-decimal list-inside ml-4 space-y-1">
+                                        <li>Ověříme vaše základní údaje</li>
+                                        <li>Přečtu vám pojistné podmínky</li>
+                                        <li>Potvrdíte souhlas</li>
+                                        <li>Dokumenty vám pošleme mailem</li>
+                                        <li>Pojištění platí od zítřka</li>
+                                    </ol>
+                                </div>
+                                <p><strong>Celý proces zabere jen 5 minut. Můžeme začít?</strong></p>` : 
+                                `<p><strong>Sjednání kurýrem - pohodlně doma:</strong></p>
+                                <div class="bg-blue-50 p-4 rounded">
+                                    <p><strong>Postup:</strong></p>
+                                    <ol class="list-decimal list-inside ml-4 space-y-1">
+                                        <li>Domluvíme termín, který vám vyhovuje</li>
+                                        <li>Kurýr přinese dokumenty domů</li>
+                                        <li>Vše si v klidu přečtete</li>
+                                        <li>Podepíšete smlouvu</li>
+                                        <li>Pojištění platí následující den</li>
+                                    </ol>
+                                </div>
+                                <p><strong>Kdy by vám to vyhovovalo? Odpoledne nebo večer?</strong></p>`
                             }
-                            <p><strong>Takže můžeme pokračovat, ${address} [Příjmení]?</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Exclusions and Record -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">9</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Výluky a záznam z jednání</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            <!-- Exclusions -->
+                            <div class="bg-red-50 p-4 rounded border-l-4 border-red-400">
+                                <h4 class="font-semibold text-red-800 mb-3">⚠️ Povinné informace o výlukách</h4>
+                                <p class="mb-3"><strong>"Dobře 😊, nyní vám přečtu povinné informace ${currentSettings.gender === 'male' ? 'pane' : 'paní'} [jméno]:"</strong></p>
+                                
+                                <div class="bg-white p-3 rounded border mb-3">
+                                    <p class="font-semibold mb-2">Pojištění se nevztahuje na:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li><strong>Odcizení v důsledku NEOPATRNÉHO jednání</strong> např. ponechání zavazadla bez dozoru nebo zneužití karty, u které jste měli napsaný PIN.</li>
+                                        <li><strong>U pojištění nákupu přes internet</strong> se nevztahuje na nákup rychle se kazícího zboží, potravin, alkoholu.</li>
+                                    </ul>
+                                    <p class="text-sm mt-2 italic">Kompletní znění výluk najdete v brožuře.</p>
+                                </div>
+                            </div>
+
+                            <!-- Variant Mismatch Warning -->
+                            <div class="bg-orange-50 p-4 rounded border-l-4 border-orange-400">
+                                <h4 class="font-semibold text-orange-800 mb-3">🔄 Kontrola souladu s potřebami</h4>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="font-semibold text-orange-700 mb-2">NESOULADY - když sjednáme POVK PLUS a klient má členy v domácnosti:</p>
+                                    <p class="text-sm"><strong>"${currentSettings.gender === 'male' ? 'Pane' : 'Paní'} [jméno]... uvedl/a jste nám, že máte další členy v domácnosti/chcete vyšší limity, je pro Vás vhodná varianta Rodina PLUS. V závěru jste zvolil variantu Plus, jen Vás upozorním, že Váš výběr neodpovídá plně Vaším potřebám, které jste v úvodu hovoru zmínil/a."</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Record of Proceedings -->
+                            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                <h4 class="font-semibold text-blue-800 mb-3">📋 Příprava záznamu z jednání (ZZJ)</h4>
+                                
+                                <div class="space-y-3">
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="font-semibold mb-2">Úvod k záznamu:</p>
+                                        <p class="text-sm"><strong>"Také jsem povinen pro Vás připravit písemný Záznam o průběhu našeho rozhovoru, který Vám nyní bude odeslán na Váš e-mail [přečte e-mail ze systému]. Do záznamu nyní zadám Vaše osobní údaje, chvíli strpení..."</strong></p>
+                                        <p class="text-xs text-gray-600 mt-2">(kopíruji z Partnera24 údaje do Bubblu - číslo účtu, datum narození, adresa, vyplním analýzu potřeb)</p>
+                                    </div>
+
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="font-semibold mb-2">Kontrolní otázka:</p>
+                                        <p class="text-sm"><strong>"Z dosavadního hovoru jsem pochopil/a, že nemáte zajištěno krytí těchto rizik jinde a jinak. Je to tak?"</strong></p>
+                                    </div>
+
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="font-semibold mb-2">Nabídka času na přečtení:</p>
+                                        <p class="text-sm"><strong>"Pokud budete potřebovat poskytnu Vám nyní čas i na jeho přečtení, s tím, že bych vám zavolala zpátky tak za 10-15 minutek nebo ho můžeme nyní projít spolu v krátkosti po telefonu a pokračovat dál ve sjednání. Zabereme nám to již jen pár minut."</strong></p>
+                                    </div>
+
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="font-semibold mb-2">Shrnutí obsahu záznamu:</p>
+                                        <div class="text-sm space-y-2">
+                                            <p><strong>"Na úvod uvedu, že obsah záznamu z jednání je vymezen zákonem. V úvodu jsou formální náležitosti jako je:"</strong></p>
+                                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                                <li>Název pojištění</li>
+                                                <li>Identifikace pojišťovny Kooperativa</li>
+                                                <li>Pojistníka Česká spořitelna</li>
+                                                <li>Vás jako zájemce o pojištění</li>
+                                                <li>Nás jako zástupce České spořitelny</li>
+                                            </ul>
+                                            
+                                            <p><strong>"Dále je pak zaznamenáno ze systému České spořitelny to, že jste dospělý a máte bankovní účet u ČS a z našeho hovoru to, že máte zájem o krytí pro ${currentSettings.family === 'family' ? 'rodinu' : 'sebe'}${currentSettings.family === 'family' ? '' : '/sebe s vyššími limity'} a že nemáte/máte částečně zajištěno pokrytí pojistných rizik jinak."</strong></p>
+                                            
+                                            <p><strong>"Na to navazuje popis variant a naše doporučení varianty ${currentSettings.family === 'family' ? 'Rodina Plus' : 'Plus'} s tím, že to odpovídá Vaším potřebám a zájmu pojistit ${currentSettings.family === 'family' ? 'sebe a rodinu' : 'sebe'}."</strong></p>
+                                            
+                                            <p><strong>"Pokračuje potvrzení, že jste si vybral námi doporučenou variantu / Pokračuje informací, že jste si vybral jinou než námi doporučenou variantu a odůvodněním důsledků této volby."</strong></p>
+                                            
+                                            <p><strong>"V závěru jsou obsaženy některé smluvní informace, které jsou pak kompletně v brožuře, kterou Vám po skončení hovoru zašleme."</strong></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-green-50 p-3 rounded border border-green-300">
+                                        <p class="font-semibold text-green-800 mb-2">Závěrečná kontrola:</p>
+                                        <p class="text-sm"><strong>"Je to takto v pořádku? Máte k tomu nějaké dotazy?"</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 10: Contracting Process -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">10</div>
+                            <h3 class="text-xl font-semibold text-blue-800">Sjednání pojištění</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            <!-- Introduction to Contracting -->
+                            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                <h4 class="font-semibold text-blue-800 mb-3">📋 Úvod k sjednání</h4>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="text-sm mb-3"><strong>"Pojďme tedy na sjednání:"</strong></p>
+                                    <p class="text-sm mb-3"><strong>"Česká spořitelna jako POJISTNÍK pro své klienty dojednala u pojišťovny Kooperativa mnou zmíněné podmínky a ceny skupinového pojištění, ke kterému můžete nyní přistoupit. Jako pojištěný nemůžete podmínky pojištění měnit, o případných změnách vás budeme informovat. Informace, které jsme spolu procházeli, jsou obsaženy v brožuře. Tu obdržíte ihned po sjednání a také je na webových stránkách České spořitelny."</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Method Selection -->
+                            <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                                <h4 class="font-semibold text-green-800 mb-3">🚀 Volba způsobu sjednání</h4>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="text-sm mb-3"><strong>"Nyní máte možnost si zvolit způsob sjednání:"</strong></p>
+                                    
+                                    <div class="grid md:grid-cols-2 gap-3 mb-3">
+                                        <div class="bg-yellow-50 p-3 rounded border border-yellow-300">
+                                            <h5 class="font-semibold text-yellow-800 mb-2">🚚 Kurýrem</h5>
+                                            <p class="text-xs">Kurýr si s vámi dohodne schůzku a přiveze k podpisu všechny dokumenty</p>
+                                        </div>
+                                        <div class="bg-cyan-50 p-3 rounded border border-cyan-300">
+                                            <h5 class="font-semibold text-cyan-800 mb-2">📞 Po telefonu</h5>
+                                            <p class="text-xs">Sjednáme nyní po telefonu, pojištění platí od zítřka, dokumenty zašleme e-mailem/poštou</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-sm mb-2"><strong>"Pojištění bude platit od zítřka a veškeré dokumenty Vám obratem zašleme na Váš e-mail nebo poštou. V obou případech můžete odstoupit od sjednaného pojištění do 30 dnů od uzavření."</strong></p>
+                                    
+                                    <p class="text-sm font-semibold text-green-700"><strong>"Jak tedy službu nastavíme? Kurýrem nebo na Vaše přání nastavíme nyní po telefonu?"</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Email/Address Confirmation -->
+                            <div class="bg-purple-50 p-4 rounded border-l-4 border-purple-400">
+                                <h4 class="font-semibold text-purple-800 mb-3">📧 Ověření kontaktních údajů</h4>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="text-sm"><strong>"Děkuji moc a veškeré podklady budete chtít zaslat na váš email ____ nebo poštou____?"</strong></p>
+                                    <p class="text-xs text-purple-600 mt-2 italic">(klientovi přečteme jeho email/adresu, abychom ji ověřili – ptáme se v případě prodeje po telefonu)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 11: Contracting Process (Phone or Courier) -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">11</div>
+                            <h3 class="text-xl font-semibold text-blue-800">${currentSettings.contract === 'phone' ? 'Sjednání po telefonu - Potvrzovací otázky' : 'Sjednání kurýrem - Dokončení procesu'}</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            ${currentSettings.contract === 'phone' ? 
+                                `<!-- Phone Contracting -->
+                                <!-- Introduction -->
+                                <div class="bg-red-50 p-4 rounded border-l-4 border-red-400">
+                                    <h4 class="font-semibold text-red-800 mb-3">⚠️ Úvod k potvrzení</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm"><strong>"Děkuji, nyní Vás poprosím kvůli potvrzení o sjednání, abyste mi odpověděl/a ANO na následující dvě otázky, ať vím, že tomu rozumíte a souhlasíte s tím:"</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Question 1 -->
+                                <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                    <h4 class="font-semibold text-blue-800 mb-3">❓ Otázka č. 1 - Aktivace pojištění</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"1) ${currentSettings.gender === 'male' ? 'Pane' : 'Paní'} [jméno], na základě našeho hovoru Vám nyní aktivujeme Pojištění osobních věcí a karet ve variantě ${currentSettings.family === 'family' ? 'RODINA PLUS za měsíční poplatek 159,-' : 'PLUS za měsíční poplatek 99,-'}, čímž přistupujete jako pojištěný ke skupinovému pojištění."</strong></p>
+                                        
+                                        <p class="text-sm mb-3"><strong>"Pojištění je sjednáno na dobu neurčitou a kdykoliv ho můžete ukončit. Poplatek za pojištění bude hrazen automaticky inkasem z Vašeho účtu, který končí ___ [přečti poslední 3 čísla z účtu klienta] vždy na konci měsíce."</strong></p>
+                                        
+                                        <div class="bg-green-100 p-2 rounded border border-green-300 mt-3">
+                                            <p class="text-sm font-bold text-green-800"><strong>"Rozumíte a souhlasíte s tím?"</strong></p>
+                                            <p class="text-xs text-green-600 mt-1">Očekávaná odpověď: <strong>ANO</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 2 -->
+                                <div class="bg-orange-50 p-4 rounded border-l-4 border-orange-400">
+                                    <h4 class="font-semibold text-orange-800 mb-3">❓ Otázka č. 2 - Dokumenty a podmínky</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"2) Záznam z našeho jednání už jsme Vám poslali do emailu. Pojištění se řídí Pojistnou smlouvou uzavřenou mezi Českou spořitelnou a pojišťovnou Kooperativa a Pojistnými podmínkami."</strong></p>
+                                        
+                                        <p class="text-sm mb-3"><strong>"Oba dokumenty a informace o zpracování Vašich osobních údajů, které budou v souvislosti s pojištěním předány do pojišťovny Kooperativa, jsou k dispozici v brožuře, kterou Vám zašleme s potvrzením o sjednání e-mailem/poštou. A také Vám na e-mail zašleme i potvrzení o pojištění (pojistku)."</strong></p>
+                                        
+                                        <div class="bg-green-100 p-2 rounded border border-green-300 mt-3">
+                                            <p class="text-sm font-bold text-green-800"><strong>"Rozumíte a souhlasíte s tím?"</strong></p>
+                                            <p class="text-xs text-green-600 mt-1">Očekávaná odpověď: <strong>ANO</strong></p>
+                                        </div>
+                                    </div>
+                                </div>` : 
+                                `<!-- Courier Contracting -->
+                                <!-- Courier Contact and Address Verification -->
+                                <div class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-400">
+                                    <h4 class="font-semibold text-yellow-800 mb-3">🚚 Kontakt kurýra a ověření adresy</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"Výborně ${currentSettings.gender === 'male' ? 'pane' : 'paní'} [jméno], kurýr Vás bude kontaktovat pro upřesnění termínu schůzky."</strong></p>
+                                        
+                                        <p class="text-sm mb-3"><strong>"Ještě ověřím Vaši adresu: [přečíst adresu z databáze]"</strong></p>
+                                        
+                                        <div class="bg-blue-100 p-2 rounded border border-blue-300 mt-3">
+                                            <p class="text-sm font-semibold text-blue-800"><strong>"Připravte si prosím na schůzku průkaz totožnosti (občanský průkaz, pas)."</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contract Summary -->
+                                <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                    <h4 class="font-semibold text-blue-800 mb-3">📋 Shrnutí sjednání</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"Jen zmíním, že uzavřením dohody přistupujete do skupinového Pojištění osobních věcí a karet ve variantě ${currentSettings.family === 'family' ? 'Rodina Plus za měsíční cenu 159 Kč' : 'Plus za měsíční cenu 99 Kč'}, která bude hrazena na konci měsíce z Vašeho účtu, který končí ___ [přečíst poslední 3 čísla z účtu]."</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Documents and Conditions -->
+                                <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                                    <h4 class="font-semibold text-green-800 mb-3">📄 Dokumenty a podmínky</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"Záznam z našeho jednání už jsme Vám poslali do emailu. Pojištění se řídí Pojistnou smlouvou uzavřenou mezi Českou spořitelnou a pojišťovnou Kooperativa a Pojistnými podmínkami."</strong></p>
+                                        
+                                        <p class="text-sm mb-3"><strong>"Oba dokumenty a informace o zpracování Vašich osobních údajů, které budou v souvislosti s pojištěním předány do pojišťovny Kooperativa, obdržíte při podpisu dokumentů a jsou také na webu České spořitelny."</strong></p>
+                                        
+                                        <p class="text-sm mb-3"><strong>"E-mailem ještě obdržíte potvrzení o pojištění (pojistku). Pojištění vzniká podepsáním doručených dokumentů."</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Final Questions -->
+                                <div class="bg-purple-50 p-4 rounded border-l-4 border-purple-400">
+                                    <h4 class="font-semibold text-purple-800 mb-3">❓ Závěrečné dotazy</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm font-semibold text-purple-700"><strong>"${currentSettings.gender === 'male' ? 'Pane' : 'Paní'} [jméno], máte na mně nějaké dotazy?"</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Courier Goodbye -->
+                                <div class="bg-orange-50 p-4 rounded border-l-4 border-orange-400">
+                                    <h4 class="font-semibold text-orange-800 mb-3">👋 Rozloučení - kurýr</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm"><strong>"Děkuji a věřím, že budete spokojený/á. Za Českou spořitelnu se s vámi loučí [vaše jméno i příjmení]. Přeji Vám příjemný den."</strong></p>
+                                    </div>
+                                </div>`
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Step 12: Final Summary and Closing -->
+                    <div class="script-section p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="step-number">12</div>
+                            <h3 class="text-xl font-semibold text-blue-800">${currentSettings.contract === 'phone' ? 'Rekapitulace a závěr hovoru (telefon)' : 'Poznámky pro kurýrní proces'}</h3>
+                        </div>
+                        <div class="ml-11 space-y-4">
+                            ${currentSettings.contract === 'phone' ? 
+                                `<!-- Phone Summary and Closing -->
+                                <!-- Summary -->
+                                <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                                    <h4 class="font-semibold text-green-800 mb-3">✅ Rekapitulace sjednání</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"Děkuji, já už to jen zrekapituluji:"</strong></p>
+                                        <p class="text-sm mb-3"><strong>"Sjednali jsme Pojištění osobních věcí a karet ve variantě ${currentSettings.family === 'family' ? 'Rodina Plus za měsíční cenu 159 Kč' : 'Plus za měsíční cenu 99 Kč'}. Pojištění bude platit od zítřka. Na Vaši adresu/e-mail obratem obdržíte potvrzení."</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Customer Service Contact -->
+                                <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                    <h4 class="font-semibold text-blue-800 mb-3">📞 Kontakt pro dotazy</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-3"><strong>"V případě, že budete mít jakékoliv dotazy, tak nás kontaktujte na zákaznické lince 277 207 207."</strong></p>
+                                        <p class="text-sm font-semibold text-blue-700"><strong>"Máte nějaké dotazy?"</strong></p>
+                                    </div>
+                                </div>
+
+                                <!-- Final Goodbye -->
+                                <div class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-400">
+                                    <h4 class="font-semibold text-yellow-800 mb-3">👋 Závěrečné rozloučení</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm"><strong>"Děkuji a věřím, že budete spokojený/á. Za Českou spořitelnu se s vámi loučí [vaše jméno i příjmení]. Přeji Vám příjemný den."</strong></p>
+                                    </div>
+                                </div>` : 
+                                `<!-- Courier Process Notes -->
+                                <!-- Process Overview -->
+                                <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                                    <h4 class="font-semibold text-blue-800 mb-3">📋 Přehled kurýrního procesu</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-2"><strong>Po ukončení hovoru:</strong></p>
+                                        <ol class="list-decimal list-inside text-sm space-y-1 ml-4">
+                                            <li>Kurýr kontaktuje klienta pro domluvení termínu</li>
+                                            <li>Kurýr doručí dokumenty k podpisu</li>
+                                            <li>Klient si vše přečte a podepíše</li>
+                                            <li>Pojištění začíná platit následující den po podpisu</li>
+                                            <li>Potvrzení se zasílá e-mailem</li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <!-- Required Documents -->
+                                <div class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-400">
+                                    <h4 class="font-semibold text-yellow-800 mb-3">📄 Potřebné dokumenty pro kurýra</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <ul class="list-disc list-inside text-sm space-y-1">
+                                            <li><strong>Průkaz totožnosti</strong> (občanský průkaz nebo pas)</li>
+                                            <li><strong>Pojistná smlouva</strong> k podpisu</li>
+                                            <li><strong>Pojistné podmínky</strong> a brožura</li>
+                                            <li><strong>Informace o zpracování osobních údajů</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Information -->
+                                <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                                    <h4 class="font-semibold text-green-800 mb-3">📞 Kontaktní informace</h4>
+                                    <div class="bg-white p-3 rounded border">
+                                        <p class="text-sm mb-2"><strong>Pro dotazy klientů:</strong></p>
+                                        <p class="text-sm">Zákaznická linka: <strong>277 207 207</strong></p>
+                                        <p class="text-sm">Webové stránky: <strong>www.csas.cz</strong></p>
+                                    </div>
+                                </div>`
+                            }
+
+                            <!-- Important Notes (Common for both) -->
+                            <div class="bg-gray-50 p-4 rounded border-l-4 border-gray-400">
+                                <h4 class="font-semibold text-gray-800 mb-3">📝 Důležité poznámky</h4>
+                                <div class="bg-white p-3 rounded border text-xs">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li><strong>Pojištění začíná platit následující pracovní den ${currentSettings.contract === 'phone' ? 'po sjednání' : 'po podpisu dokumentů'}</strong></li>
+                                        <li><strong>Klient má 30 dnů na odstoupení od smlouvy</strong></li>
+                                        <li><strong>Všechny dokumenty budou zaslány e-mailem ${currentSettings.contract === 'courier' ? 'a předány kurýrem' : 'nebo poštou'}</strong></li>
+                                        <li><strong>Poplatek se strhává automaticky z účtu na konci měsíce</strong></li>
+                                        <li><strong>Zákaznická linka: 277 207 207</strong></li>
+                                        <li><strong>Hovor je nahráván pro kontrolu kvality</strong></li>
+                                        ${currentSettings.contract === 'courier' ? '<li><strong>Kurýr vyžaduje průkaz totožnosti při podpisu</strong></li>' : ''}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -690,6 +1085,66 @@
             });
         }
 
+        function showMicroStory(storyType) {
+            const address = currentSettings.gender === 'male' ? 'Pane' : 'Paní';
+            const storyContent = document.getElementById('micro-story-content');
+            
+            // Reset all story buttons
+            document.querySelectorAll('[id$="-story-btn"]').forEach(btn => {
+                btn.classList.remove('active-button');
+            });
+            
+            // Activate selected button
+            document.getElementById(storyType + '-story-btn').classList.add('active-button');
+            
+            let content = '';
+            
+            switch(storyType) {
+                case 'phishing':
+                    content = `
+                        <div class="bg-red-50 p-4 rounded border-l-4 border-red-400">
+                            <h4 class="font-semibold text-red-800 mb-2">📧 Mikropříběh - Phishing útok:</h4>
+                            <p class="mb-3"><strong>"${address} [jméno], setkal/a jste se někdy s pojmem phishing?"</strong> <span class="text-sm text-gray-600">(Reakce na odpověď)</span></p>
+                            <p class="mb-3"><strong>"Představte si, že vám přijde SMS zpráva, která vypadá jako od České pošty, že máte nedoplatek za doručení balíčku, který jste si objednal/a. Odkaz vás navede na stránku, kde máte zadat údaje od karty, aby se balíček mohl doručit. V ten moment ale neposíláte peníze poště, ale přímo podvodníkům. Útoky phishingu se mimochodem za poslední rok ztrojnásobily. S naší ochranou účtu ale máte jistotu, že i kdyby se vám to stalo a o peníze přišel/a, dostanete je zpět."</strong></p>
+                            <p><strong>"Co si o tom myslíte? Řešil/a byste takovou situaci raději s klidem, že se vám peníze vrátí?"</strong></p>
+                        </div>
+                    `;
+                    break;
+                case 'skimming':
+                    content = `
+                        <div class="bg-orange-50 p-4 rounded border-l-4 border-orange-400">
+                            <h4 class="font-semibold text-orange-800 mb-2">💳 Mikropříběh - Skimming karty:</h4>
+                            <p class="mb-3"><strong>"Kamarád tankoval na menší čerpací stanici. Kartu vložil do standardního platebního terminálu. O dva dny později se objevily transakce z ciziny. Dle všeho došlo ke zkopírování karty. Díky pojištění se klientovi vrátila celá odcizená částka 25 000 Kč."</strong></p>
+                            <p class="mb-3"><strong>"${address} [jméno], vím, že někteří klienti upřednostňují hotovost a platby v obchodě před online světem, a i pro ně je bezpečnost dnes už bohužel nutnost."</strong></p>
+                            <p><strong>"S naší ochranou vás kryjeme i v těchto případech. Co si o tom myslíte?"</strong></p>
+                        </div>
+                    `;
+                    break;
+                case 'phone':
+                    content = `
+                        <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400">
+                            <h4 class="font-semibold text-blue-800 mb-2">📱 Mikropříběh - Ztracený telefon:</h4>
+                            <p class="mb-3"><strong>"${address} [jméno], ${currentSettings.family === 'family' ? 'říkal/a jste, že máte děti. Teď si představte, že přijde domů a řekne vám, že ztratil telefon. Jistě vás napadne, kde vezmu na nový? Budu muset zase sahat do svých úspor.' : 'představte si, že ztratíte telefon. Jistě vás napadne, kde vezmu na nový? Budu muset zase sahat do svých úspor.'}"</strong></p>
+                            <p class="mb-3"><strong>"Tady máte jistotu, že v případě nečekané situace vám s tím pomůžeme."</strong></p>
+                            <p><strong>"Tak nastavíme to takto i pro vás${currentSettings.family === 'family' ? ' a vaši rodinu' : ''}?"</strong></p>
+                        </div>
+                    `;
+                    break;
+                case 'keys':
+                    content = `
+                        <div class="bg-green-50 p-4 rounded border-l-4 border-green-400">
+                            <h4 class="font-semibold text-green-800 mb-2">🔑 Mikropříběh - Ztracené klíče:</h4>
+                            <p class="mb-3"><strong>"Teď jsme řešili s klientem situaci, kdy ztratil klíče od auta. Druhý klíč byl nefunkční a musel tedy řešit výrobu nového. Samotná výroba klíče klienta vyšla na 3 500 Kč a ještě vytvoření čipu do toho klíče stálo dalších 4 500 Kč. Celková částka se tedy vyšplhala na 8 000 Kč a vše mu bylo proplaceno díky tomuto zabezpečení účtu a osobních věcí."</strong></p>
+                            <p class="mb-3"><strong>"Klient tak nemusel sahat do svých úspor."</strong></p>
+                            <p><strong>"Dává vám to takhle smysl?"</strong></p>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            storyContent.innerHTML = content;
+        }
+
         function toggleObjection(objId) {
             const objElement = document.getElementById(objId);
             const isHidden = objElement.classList.contains('hidden');
@@ -709,5 +1164,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a10f0b6671f986',t:'MTc1NDM0MjAwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a44a17423b8a52',t:'MTc1NDM3NTg4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
